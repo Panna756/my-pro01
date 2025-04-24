@@ -56,8 +56,6 @@ app.get("/users",  async (req, res) => {
   } catch (err) {
     res.status(500).send("Server error");
   }
-
-
 });
 
 const checkSigninreq = (req, res, next) => {
@@ -102,9 +100,24 @@ app.post("/api/signin", checkSigninreq, async (req, res) => {
   
 })
 
-app.post("/api/login", checkLoginreq, (req, res) => {
+app.post("/api/login", checkLoginreq, async (req, res) => {
   const { email, password } = req.body;
-  const sql = ""
+  const sql = "SELECT * FROM users WHERE email =?";
+  try{
+    
+    const [rows] = await db.query(sql, [email]); 
+    const user = rows[0];
+    if (!user) return res.status(400).send({ message: "Invalid email or password" });
+
+    const match = await bcrypt.compare(password, user.password);
+    if (!match) return res.status(400).send({ message: "Invalid email or password" });
+
+    res.send({ message: "Login successful", userId: user.id });
+
+  }catch(err){
+    res.status(500).send("DB Error");
+  }
+  
 })
 
 // เริ่ม server
