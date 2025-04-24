@@ -1,0 +1,10 @@
+body, html, #root {
+    height: 100%;
+    margin: 0;
+}
+
+main{
+    height: 80%;
+    padding: 2rem;
+    background-color: rgb(214, 214, 145);
+}

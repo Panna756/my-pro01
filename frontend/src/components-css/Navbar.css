@@ -1,0 +1,60 @@
+.navbar {
+    display: flex;
+    align-items: center;
+    background-color: rgba(63, 165, 233, 0.808);
+    width: 100%;
+    height: 80px;
+    padding: 0 5%;
+}
+
+.menu {
+    display: flex;
+    margin-left: auto;
+    align-items: center;
+    padding: 0 1%;
+    list-style: none;
+    gap: 20px;
+}
+
+.menu-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 40px;
+    border-radius: 30px;
+    color: white;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.menu-login {
+    border: 1px solid rgb(255, 255, 255);
+}
+.menu-login:hover {
+    background-color: hsl(200, 60%, 50%);
+}
+.menu-signin {
+    background-color: rgb(255, 255, 255);
+}
+.menu-signin:hover {
+    background-color: hsl(0, 0%, 60%);
+}
+
+
+.profile {
+    width: 50px;
+    height: 50px;
+    background-color: rgba(177, 81, 81, 0.81);
+    border-radius: 50%;
+}
+
+nav li a {
+    font-weight: bold;
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+}
+
+nav li a:hover {
+    text-decoration: underline;
+}

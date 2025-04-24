@@ -1,0 +1,114 @@
+/* ===== Layout หลักของหน้า Sign In ===== */
+.signin-login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    background-color: #f9f9f9;
+    font-family: sans-serif;
+}
+
+/* ===== กล่องฟอร์ม Signin ===== */
+.signin-login-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: rgba(63, 165, 233, 0.808);
+    ;
+    padding: 2%;
+    border-radius: 12px;
+    width: 500px;
+    height: 500px;
+    box-shadow: 0 10px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* ===== หัวฟอร์ม ===== */
+.signin-login-container h2 {
+    text-align: center;
+    margin-bottom: 5%;
+    color: white;
+}
+
+/* ===== Input ช่องกรอก ===== */
+.signin-login-container .input-box {
+    border: 0;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    width: 80%;
+}
+
+/* ===== User container ===== */
+.signin-login-container .user {
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+    border: 1px solid #ffffff;
+    border-radius: 6px;
+    width: 100%;
+}
+
+
+/* ===== Email container ===== */
+.signin-login-container .email {
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+    border: 1px solid #ffffff;
+    border-radius: 6px;
+    width: 100%;
+}
+
+/* ===== Password container ===== */
+.signin-login-container .password {
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+    border: 1px solid #ffffff;
+    border-radius: 6px;
+    width: 100%;
+}
+
+/* ===== Icon ===== */
+.signin-login-container .icon {
+    width: 30px;
+    height: 20px;
+}
+
+/* ===== ปุ่ม Eye ===== */
+.signin-login-container .eyes {
+    margin-left: 5%;
+    /* ให้ชิดขวา */
+    width: 30px;
+    height: 20px;
+    transition: all 0.3s ease;
+}
+
+.signin-login-container .eyes:hover {
+    color: #686868;
+}
+
+/* ===== ข้อความ error ===== */
+.signin-login-container .error-message {
+    color: #790505;
+    font-size: 0.8rem;
+    min-height: 1rem;
+    margin: -0.3rem 0 0.5rem 0.5rem;
+}
+
+/* ===== ปุ่ม Log In ===== */
+.signin-login-container .submit {
+    padding: 0.75rem;
+    font-size: 1rem;
+    font-weight: bold;
+    background-color: #444;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+
+.signin-login-container .submit:hover {
+    background-color: #727272;
+}
