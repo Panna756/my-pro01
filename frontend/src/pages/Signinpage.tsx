@@ -1,5 +1,7 @@
+// module
 import { useState } from "react";
-import axios from "axios";
+import { controllSignin } from '../services/auth';
+import {isValidEmail ,isValidPassword} from '../utils/validators'
 //icon
 import {  FaEye,FaEyeSlash,FaUser,FaLock} from "react-icons/fa";
 import { IoMdMail } from "react-icons/io";
@@ -20,27 +22,7 @@ function Signinpage() {
     const EyeIcon = showPass ? FaEye : FaEyeSlash;
     const EyeIconc = showPassc ? FaEye : FaEyeSlash;
 
-    const validateEmail = (email: string) =>
-        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
 
-    const Register = () =>{
-        axios.post("http://localhost:3000/api/signin",
-            {
-                username,
-                email,
-                password,
-            }
-        )
-        .then((res) => {
-            console.log(res.data);
-            alert("Sign in successful!");
-          })
-          .catch((err) => {
-            console.error(err);
-            alert("Sign in failed!");
-          });
-
-    }
     
 
     const errorCheck =():boolean =>{
@@ -48,9 +30,10 @@ function Signinpage() {
 
         if (!username) newError.username = "Fill your username";
         if (!email) newError.email = "Fill your email";
-        else if (!validateEmail(email)) newError.email = "Invalid email format";
+        else if (!isValidEmail(email)) newError.email = "Invalid email format";
 
         if (!password) newError.password = "Fill your password";
+        else if (!isValidPassword(password)) newError.password = "Password must be at least 6 characters long";
         if (!confirmpassword) newError.confirmpassword = "Fill your confirm password";
         else if (password !== confirmpassword) newError.confirmpassword = "Passwords do not match";
 
@@ -64,11 +47,20 @@ function Signinpage() {
     }
 
 
-    const handleSignin = (e: React.FormEvent) => {
+    const handleSignin = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (errorCheck()){
-            Register();
-        } 
+        if(!errorCheck()) return
+        try{
+            const res = await controllSignin(username,email,password);
+
+             // เก็บข้อมูลใน localStorage ถ้าอยาก auto login
+            localStorage.setItem('userId', res.userId);
+            localStorage.setItem('username', res.username);
+            
+            alert(`Status: ${res.message}`); 
+        }catch(err){
+            alert("signin Failed" );
+        }
     }
 
     return (

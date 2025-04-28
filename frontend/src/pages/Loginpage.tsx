@@ -1,6 +1,6 @@
 // module
 import React, { useState } from 'react';
-import axios from "axios";
+import { controllLogin } from '../services/auth';
 
 // css
 import '../pages-css/Singinpage-Loginpage.css'
@@ -15,30 +15,11 @@ function Loginpage(){
     const [password ,setPassword] = useState('');
     const [error, setError] = useState<{ email?: string; password?: string; }>({});
     const [showPass,setShowPass] = useState(true)
-    const [success ,setSuccess] = useState(false);
 
     const EyeIcon = showPass ? FaEye : FaEyeSlash;
 
-    const Login =  async () =>{
 
-        try {
-            const res = await axios.post('http://localhost:3000/api/login', {
-              email,
-              password,
-            });
-            alert(res.data.message); // success
-          } 
-          catch(err) {
-            if (axios.isAxiosError(err)) {
-              alert(err.response?.data?.error || "Login failed");
-            } else {
-              alert("Unexpected error");
-            }
-          }
-
-    } 
-
-    const errorCheck =() =>{
+    const errorCheck =():boolean =>{
         const newError: typeof error = {};
 
         if (!email) newError.email = "Fill your email";
@@ -46,18 +27,29 @@ function Loginpage(){
 
         if (Object.keys(newError).length > 0) {
             setError(newError);
-            setSuccess(false);
-            return;
+            return false;
         }
 
         setError({});
-        setSuccess(true);
+        return true
     }
 
-    const handleLogin = (e:React.FormEvent) => {
+    const handleLogin = async (e:React.FormEvent) => {
         e.preventDefault();
-        errorCheck();
-
+        if (!errorCheck()) return;  // ❗ ต้องเช็คก่อน ถ้า error ไม่ยิงต่อ
+        try {
+            const res = await controllLogin(email, password);
+        
+            console.log(res); // สมมุติได้ { message: "Login successful", username: "john", userId: 1 }
+        
+            // เก็บข้อมูลที่ได้ลง localStorage หรือ state
+            localStorage.setItem('userId', res.userId);
+            localStorage.setItem('username', res.username);
+        
+          } catch (err) {
+            console.error(err);
+            alert("Login failed");
+        }
     }
 
     return(
