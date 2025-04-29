@@ -1,6 +1,7 @@
 // module
-import React, { useState } from 'react';
+import React, { useState , useRef } from 'react';
 import { controllLogin } from '../services/auth';
+import {handleKeyDown} from '../utils/handlekeyup-down'
 
 // css
 import '../pages-css/Singinpage-Loginpage.css'
@@ -11,14 +12,19 @@ import {  FaEye,FaEyeSlash,FaLock} from "react-icons/fa";
 import { IoMdMail } from "react-icons/io";
 
 function Loginpage(){
+    
+    //state
     const [email ,setEmail] = useState('');
     const [password ,setPassword] = useState('');
     const [error, setError] = useState<{ email?: string; password?: string; }>({});
     const [showPass,setShowPass] = useState(true)
-
+    //ref
+    const emailRef = useRef<HTMLInputElement>(null);
+    const passwordRef = useRef<HTMLInputElement>(null);
+    //tag
     const EyeIcon = showPass ? FaEye : FaEyeSlash;
 
-
+    //fill auth check
     const errorCheck =():boolean =>{
         const newError: typeof error = {};
 
@@ -34,6 +40,7 @@ function Loginpage(){
         return true
     }
 
+    //onsubmit
     const handleLogin = async (e:React.FormEvent) => {
         e.preventDefault();
         if (!errorCheck()) return;  // ❗ ต้องเช็คก่อน ถ้า error ไม่ยิงต่อ
@@ -60,11 +67,13 @@ function Loginpage(){
                            <IoMdMail className="icon"/>
                            <input
                                className="input-box"
+                               ref={emailRef}
                                spellCheck="false"
                                type="email"
                                placeholder="Email"
                                value={email}
                                onChange={e => setEmail(e.target.value)}
+                               onKeyDown={(e) => { handleKeyDown(e, passwordRef , passwordRef)}}
                            />
        
                        </div>
@@ -73,10 +82,12 @@ function Loginpage(){
                            <FaLock className="icon"/>
                            <input
                                className="input-box"
+                               ref={passwordRef}
                                placeholder="Password"
                                type={showPass?"text":"password"}
                                value={password}
                                onChange={e => setPassword(e.target.value)}
+                               onKeyDown={(e) => { handleKeyDown(e, emailRef , emailRef)}}
                            />
                            <EyeIcon className="eyes" onClick={() => setShowPass(!showPass)} />
                        </div>
