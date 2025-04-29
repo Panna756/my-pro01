@@ -1,7 +1,8 @@
 // module
-import { useState } from "react";
+import { useState,useRef } from "react";
 import { controllSignin } from '../services/auth';
 import {isValidEmail ,isValidPassword} from '../utils/validators'
+import {handleKeyDown} from '../utils/handlekeyup-down'
 //icon
 import {  FaEye,FaEyeSlash,FaUser,FaLock} from "react-icons/fa";
 import { IoMdMail } from "react-icons/io";
@@ -18,6 +19,12 @@ function Signinpage() {
     const [showPass, setShowPass] = useState(true);
     const [showPassc, setShowPassc] = useState(true);
     const [error, setError] = useState<{ username?: string; email?: string; password?: string; confirmpassword?: string; }>({});
+
+    const usernameRef = useRef<HTMLInputElement>(null);
+    const emailRef = useRef<HTMLInputElement>(null);
+    const passwordRef = useRef<HTMLInputElement>(null);
+    const confirmpasswordRef = useRef<HTMLInputElement>(null);
+
 
     const EyeIcon = showPass ? FaEye : FaEyeSlash;
     const EyeIconc = showPassc ? FaEye : FaEyeSlash;
@@ -72,9 +79,11 @@ function Signinpage() {
                     <input
                         className="input-box"
                         type="text"
+                        ref={usernameRef}
                         placeholder="Username"
                         value={username}
                         onChange={e => setUsername(e.target.value)}
+                        onKeyDown={(e) => { handleKeyDown(e, emailRef , confirmpasswordRef)}}
                     />
                 </div>
                 {error && <div className="error-message">{error.username}</div>}
@@ -83,10 +92,12 @@ function Signinpage() {
                     <input
                         className="input-box"
                         spellCheck="false"
+                        ref={emailRef}
                         type="email"
                         placeholder="Email"
                         value={email}
                         onChange={e => setEmail(e.target.value)}
+                        onKeyDown={(e) => { handleKeyDown(e, passwordRef , usernameRef)}}
                     />
 
                 </div>
@@ -95,10 +106,12 @@ function Signinpage() {
                     <FaLock className="icon"/>
                     <input
                         className="input-box"
+                        type={showPassc?"text":"password"}
+                        ref={passwordRef}
                         placeholder="Password"
-                        type={showPass?"text":"password"}
                         value={password}
                         onChange={e => setPassword(e.target.value)}
+                        onKeyDown={(e) => { handleKeyDown(e, confirmpasswordRef , emailRef)}}
                     />
                     <EyeIcon className="eyes" onClick={() => setShowPass(!showPass)} />
                 </div>
@@ -107,10 +120,12 @@ function Signinpage() {
                     <FaLock className="icon"/>
                     <input
                         className="input-box"
-                        placeholder="Confirm-Password"
                         type={showPassc?"text":"password"}
+                        ref={confirmpasswordRef}
+                        placeholder="Confirm-Password"
                         value={confirmpassword}
                         onChange={e => setConfirmpassword(e.target.value)}
+                        onKeyDown={(e) => { handleKeyDown(e, usernameRef , passwordRef)}}
                     />
                     <EyeIconc className="eyes" onClick={() => setShowPassc(!showPassc)} />
                 </div>
